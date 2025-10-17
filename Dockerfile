@@ -1,7 +1,25 @@
-FROM openjdk:21-jdk-slim
+# ---------- Build Stage ----------
+FROM eclipse-temurin:21-jdk AS builder
+WORKDIR /app
 
-ARG JAR_FILE=target/PettiWay-0.0.1-SNAPSHOT.jar
-COPY ./target/PettiWay-0.0.1-SNAPSHOT.jar app_pettiway.jar
+# Copiamos el proyecto
+COPY . .
 
+# Hacemos el wrapper de Maven ejecutable (si existe)
+RUN chmod +x mvnw
+
+# Build de la app (skip tests para agilizar)
+RUN ./mvnw clean package -DskipTests
+
+# ---------- Runtime Stage ----------
+FROM eclipse-temurin:21-jre
+WORKDIR /app
+
+# Copiamos el JAR generado en el stage anterior
+COPY --from=builder /app/target/*.jar app.jar
+
+# Exponemos puerto de la app
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app_pettiway.jar"]
+
+# Entry point
+ENTRYPOINT ["java","-jar","/app/app.jar"]
