@@ -33,6 +33,10 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
-    private boolean verified;
+    private boolean verified = false;
+    private boolean profileComplete = false;
+
+    private UUID profilePhotoId;
+
     private LocalDateTime createdAt;
 }

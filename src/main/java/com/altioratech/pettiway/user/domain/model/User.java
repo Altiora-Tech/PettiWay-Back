@@ -20,6 +20,8 @@ public class User {
     private UserStatus status;
     private AuthProvider provider;
     private boolean verified;
+    private boolean profileComplete;
+    private UUID profilePhotoId;
     private LocalDateTime createdAt;
 
     // ======================

@@ -26,6 +26,8 @@ public class LoginUserUseCase {
         }
 
         String token = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole().name());
-        return new LoginResponse(user.getId(), user.getEmail(), user.getName(), user.getRole(), token);
+        String refreshToken = jwtService.generateRefreshToken(user.getId(), user.getEmail());
+
+        return new LoginResponse(user.getId(), user.getEmail(), user.getName(), user.getRole(), token, refreshToken);
     }
 }

@@ -21,7 +21,8 @@ public class RefreshTokenUseCase {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Token inválido o usuario no encontrado"));
         String newToken = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole().name());
+        String refreshToken = jwtService.generateRefreshToken(user.getId(), user.getEmail());
 
-        return new LoginResponse(user.getId(), user.getEmail(), user.getName(), user.getRole(), newToken);
+        return new LoginResponse(user.getId(), user.getEmail(), user.getName(), user.getRole(), newToken, refreshToken);
     }
 }

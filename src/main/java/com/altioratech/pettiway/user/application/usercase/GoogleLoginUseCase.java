@@ -56,13 +56,15 @@ public class GoogleLoginUseCase {
         }
 
         String token = jwtService.generateToken(user.getId(), email, user.getRole().name());
+        String refreshToken = jwtService.generateRefreshToken(user.getId(), user.getEmail());
 
         return new LoginResponse(
                 user.getId(),
                 user.getEmail(),
                 user.getName(),
                 user.getRole(),
-                token
+                token,
+                refreshToken
         );
     }
 }

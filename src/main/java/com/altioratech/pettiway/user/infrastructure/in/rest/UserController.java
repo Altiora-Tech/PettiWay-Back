@@ -5,6 +5,7 @@ import com.altioratech.pettiway.user.application.dto.request.UpdateUserRequest;
 import com.altioratech.pettiway.user.application.dto.request.VerifyUserRequest;
 import com.altioratech.pettiway.user.application.dto.response.UserResponse;
 import com.altioratech.pettiway.user.application.usercase.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
+@SecurityRequirement(name = "bearer-key")
 @CrossOrigin(origins = "http://localhost", allowedHeaders = "*", allowCredentials = "true")
 public class UserController {
 
