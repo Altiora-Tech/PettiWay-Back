@@ -1,6 +1,8 @@
 package com.altioratech.pettiway.user.domain.model;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -24,6 +26,7 @@ public class User {
     private boolean profileComplete;
     private UUID profilePhotoId;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     // ======================
     // Métodos de dominio puro

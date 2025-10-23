@@ -1,7 +1,10 @@
 package com.altioratech.pettiway.verification.domain;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,6 +20,8 @@ public class Verification {
     private List<String> documentUrls;   // URL de la imagen en el módulo image
     private VerificationStatus status;
     private String adminComment;      // comentario del superadmin en caso de rechazo
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public boolean isApproved() {
         return status == VerificationStatus.APPROVED;

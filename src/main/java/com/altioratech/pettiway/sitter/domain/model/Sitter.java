@@ -2,7 +2,10 @@ package com.altioratech.pettiway.sitter.domain.model;
 
 import com.altioratech.pettiway.user.domain.model.User;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,6 +34,8 @@ public class Sitter {
     private String experience;
     private SitterStatus status;
 
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     // ======================
     // MÉTODOS DE DOMINIO
     // ======================

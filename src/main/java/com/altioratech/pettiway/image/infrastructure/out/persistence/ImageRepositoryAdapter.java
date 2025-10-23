@@ -49,4 +49,11 @@ public class ImageRepositoryAdapter implements ImageRepository {
         return jpaRepository.countByUserIdAndCategory(userId, category);
     }
 
+    @Override
+    public List<Image> findByReferenceId(UUID referenceId) {
+        return jpaRepository.findByReferenceId(referenceId)
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
 }

@@ -2,7 +2,10 @@ package com.altioratech.pettiway.location.domain.model;
 
 import com.altioratech.pettiway.location.application.dto.LocationDTO;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -23,6 +26,8 @@ public class Location {
     private Double latitude;
     private Double longitude;
     private String placeId;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     // ======================
     // Métodos de dominio puro

@@ -1,7 +1,7 @@
 package com.altioratech.pettiway.verification.infrastructure.out.persistence.mapper;
 
 import com.altioratech.pettiway.verification.domain.Verification;
-import com.altioratech.pettiway.verification.infrastructure.out.persistence.VerificationJpaEntity;
+import com.altioratech.pettiway.verification.infrastructure.out.persistence.VerificationEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -11,7 +11,7 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface VerificationEntityMapper {
 
-    VerificationJpaEntity toEntity(Verification domain);
+    VerificationEntity toEntity(Verification domain);
 
-    Verification toDomain(VerificationJpaEntity entity);
+    Verification toDomain(VerificationEntity entity);
 }

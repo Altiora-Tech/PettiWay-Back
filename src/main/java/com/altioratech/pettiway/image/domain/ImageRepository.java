@@ -11,5 +11,5 @@ public interface ImageRepository {
     void deleteById(UUID id);
     long countByUserId(UUID id);
     long countByUserIdAndCategory(UUID userId, ImageCategory category);
-
+    List<Image> findByReferenceId(UUID referenceId);
 }

@@ -1,7 +1,7 @@
 package com.altioratech.pettiway.image.infrastructure.out.persistence.mapper;
 
 import com.altioratech.pettiway.image.domain.Image;
-import com.altioratech.pettiway.image.infrastructure.out.persistence.ImageJpaEntity;
+import com.altioratech.pettiway.image.infrastructure.out.persistence.ImageEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -11,7 +11,7 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface ImageEntityMapper {
 
-    ImageJpaEntity toEntity(Image domain);
+    ImageEntity toEntity(Image domain);
 
-    Image toDomain(ImageJpaEntity entity);
+    Image toDomain(ImageEntity entity);
 }

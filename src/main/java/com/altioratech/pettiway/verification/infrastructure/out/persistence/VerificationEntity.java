@@ -4,7 +4,10 @@ import com.altioratech.pettiway.verification.domain.DocumentType;
 import com.altioratech.pettiway.verification.domain.VerificationStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class VerificationJpaEntity {
+public class VerificationEntity {
 
     @Id
     @GeneratedValue
@@ -35,4 +38,10 @@ public class VerificationJpaEntity {
     private VerificationStatus status;
 
     private String adminComment;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }

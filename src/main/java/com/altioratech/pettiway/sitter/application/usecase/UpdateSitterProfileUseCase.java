@@ -1,6 +1,5 @@
 package com.altioratech.pettiway.sitter.application.usecase;
 
-import com.altioratech.pettiway.image.domain.ImageRepository;
 import com.altioratech.pettiway.location.application.dto.LocationDTO;
 import com.altioratech.pettiway.location.application.usecase.SaveLocationUseCase;
 import com.altioratech.pettiway.location.application.usecase.UpdateLocationUseCase;
@@ -8,19 +7,15 @@ import com.altioratech.pettiway.location.domain.model.Location;
 import com.altioratech.pettiway.location.domain.service.GeocodingServicePort;
 import com.altioratech.pettiway.sitter.domain.model.ProfessionalRole;
 import com.altioratech.pettiway.sitter.domain.model.Sitter;
-import com.altioratech.pettiway.sitter.domain.model.SitterStatus;
 import com.altioratech.pettiway.sitter.domain.repository.SitterRepository;
 import com.altioratech.pettiway.user.application.service.ProfileCompletionService;
 import com.altioratech.pettiway.user.domain.model.User;
-import com.altioratech.pettiway.verification.domain.VerificationRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
