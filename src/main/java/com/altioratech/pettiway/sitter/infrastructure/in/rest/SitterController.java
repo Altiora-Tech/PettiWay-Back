@@ -17,9 +17,20 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.util.Map;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/sitters")
 @SecurityRequirement(name = "bearer-key")
+@Tag(
+        name = "Cuidadores (Sitters)",
+        description = "Gestión del perfil profesional de cuidadores: actualización de datos, experiencia, roles y ubicación geográfica."
+)
 @RequiredArgsConstructor
 public class SitterController {
 
@@ -29,6 +40,33 @@ public class SitterController {
     // =============================================================
     // ✅ FRONTEND (usa placeId del Autocomplete)
     // =============================================================
+    @Operation(
+            summary = "Actualizar perfil de Sitter (Frontend)",
+            description = """
+            Permite al frontend enviar un `placeId` obtenido desde Google Places Autocomplete,
+            el cual se convierte automáticamente en coordenadas y dirección detallada.
+            Incluye biografía, experiencia y roles profesionales.
+            """,
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            schema = @Schema(implementation = UpdateSitterProfileFrontendDTO.class),
+                            examples = @ExampleObject(value = """
+                            {
+                              "bio": "Cuidadora responsable y amante de los animales con 5 años de experiencia.",
+                              "experience": "Experiencia en paseos, adiestramiento y cuidado de perros mayores.",
+                              "placeId": "ChIJN1t_tDeuEmsRUsoyG83frY4",
+                              "professionalRoles": ["DOG_WALKER", "PET_SITTER"]
+                            }
+                            """)
+                    )
+            ),
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Perfil actualizado correctamente (frontend)",
+                            content = @Content(schema = @Schema(implementation = Sitter.class))),
+                    @ApiResponse(responseCode = "400", description = "Error en los datos o placeId inválido")
+            }
+    )
     @PutMapping(value = "/update-profile-frontend", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateProfileFrontend(
             @RequestBody UpdateSitterProfileFrontendDTO dto,
@@ -69,6 +107,40 @@ public class SitterController {
     // =============================================================
     // 🧪 BACKEND (envía Location completa)
     // =============================================================
+    @Operation(
+            summary = "Actualizar perfil de Sitter (Backend)",
+            description = """
+            Permite a servicios internos (backend) actualizar el perfil del cuidador enviando la información completa de ubicación.
+            Este método se usa en paneles administrativos o integraciones directas.
+            """,
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            schema = @Schema(implementation = UpdateSitterProfileBackendDTO.class),
+                            examples = @ExampleObject(value = """
+                            {
+                              "bio": "Amante de los animales, con formación en adiestramiento canino y primeros auxilios veterinarios.",
+                              "experience": "He trabajado con refugios y hogares transitorios durante más de 3 años.",
+                              "location": {
+                                "street": "Av. Siempre Viva",
+                                "number": "742",
+                                "city": "Springfield",
+                                "province": "Buenos Aires",
+                                "country": "Argentina",
+                                "lat": -34.6037,
+                                "lng": -58.3816
+                              },
+                              "professionalRoles": ["PET_SITTER"]
+                            }
+                            """)
+                    )
+            ),
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Perfil actualizado correctamente (backend)",
+                            content = @Content(schema = @Schema(implementation = Sitter.class))),
+                    @ApiResponse(responseCode = "400", description = "Error en la estructura o datos inválidos")
+            }
+    )
     @PutMapping(value = "/update-profile-backend", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateProfileBackend(
             @RequestBody UpdateSitterProfileBackendDTO dto,

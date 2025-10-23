@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import com.altioratech.pettiway.user.application.service.ProfileCompletionService;
+import com.altioratech.pettiway.user.domain.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +20,8 @@ public class UploadMultipleImagesUseCase {
 
     private final ImageRepository imageRepository;
     private final StorageServicePort storageService;
+    private final UserRepository userRepository;
+    private final ProfileCompletionService profileCompletionService;
 
     public List<Image> execute(UUID userId, ImageCategory category, List<MultipartFile> files) {
         List<Image> uploadedImages = new ArrayList<>();
@@ -38,7 +42,9 @@ public class UploadMultipleImagesUseCase {
             uploadedImages.add(imageRepository.save(image));
         }
 
+        // ✅ Una vez subidas todas las imágenes, actualizamos el estado del perfil
+        userRepository.findById(userId).ifPresent(profileCompletionService::updateProfileCompletion);
+
         return uploadedImages;
     }
 }
-

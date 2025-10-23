@@ -9,4 +9,7 @@ public interface ImageRepository {
     Optional<Image> findById(UUID id);
     List<Image> findByUserId(UUID userId);
     void deleteById(UUID id);
+    long countByUserId(UUID id);
+    long countByUserIdAndCategory(UUID userId, ImageCategory category);
+
 }

@@ -10,6 +10,7 @@ import com.altioratech.pettiway.sitter.domain.model.ProfessionalRole;
 import com.altioratech.pettiway.sitter.domain.model.Sitter;
 import com.altioratech.pettiway.sitter.domain.model.SitterStatus;
 import com.altioratech.pettiway.sitter.domain.repository.SitterRepository;
+import com.altioratech.pettiway.user.application.service.ProfileCompletionService;
 import com.altioratech.pettiway.user.domain.model.User;
 import com.altioratech.pettiway.verification.domain.VerificationRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +29,8 @@ public class UpdateSitterProfileUseCase {
     private final SitterRepository sitterRepository;
     private final UpdateLocationUseCase updateLocationUseCase;
     private final SaveLocationUseCase saveLocationUseCase;
-    private final VerificationRepository verificationRepository;
-    private final ImageRepository imageRepository;
     private final GeocodingServicePort geocodingServicePort;
+    private final ProfileCompletionService profileCompletionService;
 
     /**
      * Actualiza o completa el perfil profesional del Sitter autenticado.
@@ -61,8 +61,13 @@ public class UpdateSitterProfileUseCase {
 
             sitter.setLocationId(persisted.getId());
         }
+        Sitter updated = sitterRepository.save(sitter);
 
-        return sitterRepository.save(sitter);
+        // Actualizamos estado de perfil del usuario base
+        User user = sitter.getUser();
+        profileCompletionService.updateProfileCompletion(user);
+
+        return updated;
     }
 
     private Sitter getAuthenticatedSitter() {

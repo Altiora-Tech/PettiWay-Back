@@ -1,6 +1,7 @@
 package com.altioratech.pettiway.image.infrastructure.out.persistence;
 
 import com.altioratech.pettiway.image.domain.Image;
+import com.altioratech.pettiway.image.domain.ImageCategory;
 import com.altioratech.pettiway.image.domain.ImageRepository;
 import com.altioratech.pettiway.image.infrastructure.out.persistence.mapper.ImageEntityMapper;
 import lombok.RequiredArgsConstructor;
@@ -39,4 +40,13 @@ public class ImageRepositoryAdapter implements ImageRepository {
     public void deleteById(UUID id) {
         jpaRepository.deleteById(id);
     }
+    @Override
+    public long countByUserId(UUID userId) {
+        return jpaRepository.countByUserId(userId);
+    }
+    @Override
+    public long countByUserIdAndCategory(UUID userId, ImageCategory category) {
+        return jpaRepository.countByUserIdAndCategory(userId, category);
+    }
+
 }

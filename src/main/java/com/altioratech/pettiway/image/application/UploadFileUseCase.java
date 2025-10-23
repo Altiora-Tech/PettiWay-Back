@@ -1,6 +1,9 @@
 package com.altioratech.pettiway.image.application;
 
 import com.altioratech.pettiway.image.domain.*;
+import com.altioratech.pettiway.user.application.service.ProfileCompletionService;
+import com.altioratech.pettiway.user.domain.model.User;
+import com.altioratech.pettiway.user.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +17,8 @@ public class UploadFileUseCase {
 
     private final ImageRepository imageRepository;
     private final StorageServicePort storageService;
+    private final ProfileCompletionService profileCompletionService;
+    private final UserRepository userRepository;
 
     public Image execute(UUID userId, ImageCategory category, MultipartFile file) {
 
@@ -47,6 +52,9 @@ public class UploadFileUseCase {
                 .url(url)
                 .build();
 
-        return imageRepository.save(image);
+        imageRepository.save(image);
+        User user = userRepository.findById(userId).orElseThrow();
+        profileCompletionService.updateProfileCompletion(user);
+        return image;
     }
 }
